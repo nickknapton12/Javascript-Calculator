@@ -9,6 +9,7 @@ class Calculator{
         this.currentOperand = ''
         this.previousOperand = ''
         this.operation = undefined
+        negativeNum = false
     }
 
     delete(){
@@ -50,6 +51,7 @@ class Calculator{
 
     switchSigns(){
         this.currentOperand *= -1
+        console.log("fuck")
     }
 
     compute(){
@@ -59,7 +61,10 @@ class Calculator{
         if(isNaN(prev) || isNaN(current)) return
         switch (this.operation){
             case '+': 
+            console.log(current)
+            console.log(prev)
             computation = prev + current
+            
             break
             
             case '-': 
@@ -106,6 +111,7 @@ class Calculator{
 
     updateDisplay(){
         this.currentOperandTextElement.innerText = this.getDisplayNumber(this.currentOperand)
+        console.log(this.currentOperandTextElement.innerText)
         if(this.operation != null){
             this.previousOperandTextElement.innerText = `${this.getDisplayNumber(this.previousOperand)} ${this.operation}`
         } else{
@@ -123,9 +129,10 @@ const deleteButton = document.querySelector('[data-delete]')
 const allClearButton = document.querySelector('[data-all-clear]')
 const previousOperandTextElement = document.querySelector('[data-previous-operand]')
 const currentOperandTextElement = document.querySelector('[data-current-operand]')
-const positiveOrNegativeNumber = document.querySelector('[data-postiveNegativeButton]')
+const positiveOrNegativeNumber = document.querySelector('[data-positiveNegativeButton]')
 const operationTwo = document.querySelectorAll('[data-operation-two]')
 var finishedOperation = false;
+var negativeNum = false
 
 const calculator = new Calculator(previousOperandTextElement, currentOperandTextElement)
 
@@ -160,12 +167,8 @@ operationTwo.forEach(button => {
     })
 })
 
-positiveOrNegativeNumber.addEventListener('click', () =>{
-    calculator.switchSigns()
-    calculator.updateDisplay()
-})
 
-document.addEventListener("keydown", () =>{
+document.addEventListener("keypress", () =>{
     if(event.key == '/'){
         finishedOperation = false
         calculator.chooseOperation('÷')
@@ -176,7 +179,7 @@ document.addEventListener("keydown", () =>{
         calculator.chooseOperation(event.key)
         calculator.updateDisplay()
     }
-    else if(event.key == '1' || event.key == '2' ||event.key == '3' ||event.key == '4' ||event.key == '5' ||event.key == '6' ||event.key == '7' ||event.key == '8' ||event.key == '9' ){
+    else if(event.key == '0' ||event.key == '1' || event.key == '2' ||event.key == '3' ||event.key == '4' ||event.key == '5' ||event.key == '6' ||event.key == '7' ||event.key == '8' ||event.key == '9' ){
         if(finishedOperation == false){
             calculator.appendNumber(event.key)
             calculator.updateDisplay()
@@ -226,5 +229,13 @@ deleteButton.addEventListener('click', button => {
     }else{
         calculator.delete()
         calculator.updateDisplay()
+    }
+})
+
+positiveOrNegativeNumber.addEventListener('click', button => {
+    if(negativeNum != true){
+        calculator.switchSigns()
+        calculator.updateDisplay()
+        negativeNum = true
     }
 })
