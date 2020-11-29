@@ -17,7 +17,8 @@ class Calculator{
 
     appendNumber(number){
         if(number === '.' && this.currentOperand.includes('.')) return
-        this.currentOperand = this.currentOperand.toString() + number.toString()
+        if(number == 'π') this.currentOperand += Math.PI
+        else{ this.currentOperand = this.currentOperand.toString() + number.toString()}
     }
 
     chooseOperation(operation){
@@ -29,6 +30,26 @@ class Calculator{
         this.previousOperand = this.currentOperand
         this.currentOperand = ''
 
+    }
+
+    chooseOperationTwo(operation){
+        if(this.currentOperand === '') return
+        switch(operation){
+            case '√':
+            this.currentOperand = Math.sqrt(this.currentOperand)
+            break
+
+            case 'x2':
+            this.currentOperand = Math.pow(this.currentOperand,2)
+            break
+
+            default:
+                return
+        }
+    }
+
+    switchSigns(){
+        this.currentOperand *= -1
     }
 
     compute(){
@@ -51,6 +72,10 @@ class Calculator{
 
             case '*': 
             computation = prev * current
+            break
+
+            case 'xn':
+            computation = Math.pow(prev,current)
             break
 
             default:
@@ -98,34 +123,108 @@ const deleteButton = document.querySelector('[data-delete]')
 const allClearButton = document.querySelector('[data-all-clear]')
 const previousOperandTextElement = document.querySelector('[data-previous-operand]')
 const currentOperandTextElement = document.querySelector('[data-current-operand]')
+const positiveOrNegativeNumber = document.querySelector('[data-postiveNegativeButton]')
+const operationTwo = document.querySelectorAll('[data-operation-two]')
+var finishedOperation = false;
 
 const calculator = new Calculator(previousOperandTextElement, currentOperandTextElement)
 
+
 numberButtons.forEach(button => {
     button.addEventListener('click', () => {
-        calculator.appendNumber(button.innerText)
-        calculator.updateDisplay()
+        if(finishedOperation == false){
+            calculator.appendNumber(button.innerText)
+            calculator.updateDisplay()
+        }else{
+            calculator.clear()
+            finishedOperation = false;
+            calculator.appendNumber(button.innerText)
+            calculator.updateDisplay()
+        }
     })
 })
 
 operationButtons.forEach(button => {
     button.addEventListener('click', () => {
+        finishedOperation = false
         calculator.chooseOperation(button.innerText)
         calculator.updateDisplay()
     })
 })
 
+operationTwo.forEach(button => {
+    button.addEventListener('click', () => {
+        finishedOperation = true
+        calculator.chooseOperationTwo(button.innerText)
+        calculator.updateDisplay()
+    })
+})
+
+positiveOrNegativeNumber.addEventListener('click', () =>{
+    calculator.switchSigns()
+    calculator.updateDisplay()
+})
+
+document.addEventListener("keydown", () =>{
+    if(event.key == '/'){
+        finishedOperation = false
+        calculator.chooseOperation('÷')
+        calculator.updateDisplay()
+    }
+    else if(event.key == '+' || event.key == '-' || event.key == '*'){
+        finishedOperation = false
+        calculator.chooseOperation(event.key)
+        calculator.updateDisplay()
+    }
+    else if(event.key == '1' || event.key == '2' ||event.key == '3' ||event.key == '4' ||event.key == '5' ||event.key == '6' ||event.key == '7' ||event.key == '8' ||event.key == '9' ){
+        if(finishedOperation == false){
+            calculator.appendNumber(event.key)
+            calculator.updateDisplay()
+        }
+        else{
+            calculator.clear()
+            calculator.updateDisplay()
+            finishedOperation = false;
+            calculator.appendNumber(event.key)
+            calculator.updateDisplay()
+        }
+    }
+    else if(event.key == 'Enter'){
+        calculator.compute()
+        calculator.updateDisplay()
+        finishedOperation = true;
+    }
+    else if(event.key == 'Backspace'){
+        if(finishedOperation == true){
+            calculator.clear()
+            calculator.updateDisplay()
+            finishedOperation = false
+        }else{
+            calculator.delete()
+            calculator.updateDisplay()
+        }
+    }
+})
+
 equalsButton.addEventListener('click', button => {
     calculator.compute()
     calculator.updateDisplay()
+    finishedOperation = true
 })
 
 allClearButton.addEventListener('click', button => {
     calculator.clear()
     calculator.updateDisplay()
+    finishedOperation = false
 })
 
 deleteButton.addEventListener('click', button => {
-    calculator.delete()
-    calculator.updateDisplay()
+    if(finishedOperation == true){
+        calculator.clear()
+        calculator.updateDisplay()
+        finishedOperation = false
+    }else{
+        calculator.delete()
+        calculator.updateDisplay()
+    }
 })
