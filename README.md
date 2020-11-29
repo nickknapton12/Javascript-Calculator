@@ -12,8 +12,5 @@ This project was the first project I made learning JavaScript, I took inspiratio
 - Added feature of square roots
 - Added feature of powers (x^n)
 - Added pi input for convenience
-
-![Alt text](github.com/nickknapton12/Javascript-Calculator/blob/main/photos/Capture.JPG)
-
-
+![](photos/Capture.JPG)
 
