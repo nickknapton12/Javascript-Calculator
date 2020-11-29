@@ -51,7 +51,6 @@ class Calculator{
 
     switchSigns(){
         this.currentOperand *= -1
-        console.log("fuck")
     }
 
     compute(){
@@ -61,8 +60,6 @@ class Calculator{
         if(isNaN(prev) || isNaN(current)) return
         switch (this.operation){
             case '+': 
-            console.log(current)
-            console.log(prev)
             computation = prev + current
             
             break
@@ -168,7 +165,8 @@ operationTwo.forEach(button => {
 })
 
 
-document.addEventListener("keypress", () =>{
+document.addEventListener("keydown", () =>{
+    console.log(event.key)
     if(event.key == '/'){
         finishedOperation = false
         calculator.chooseOperation('÷')
