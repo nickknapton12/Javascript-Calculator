@@ -13,6 +13,6 @@ This project was the first project I made learning JavaScript, I took inspiratio
 - Added feature of powers (x^n)
 - Added pi input for convenience
 
-![alt text](https://github.com/nickknapton12/Javascript-Calculator/blob/main/photos/Capture.jpg?raw=true)
+![alt text](https://github.com/[nickknapton12]/[Javascript-Calculator]/blob/[main]/[photos]/Capture.jpg?raw=true)
 
 
