@@ -16,3 +16,7 @@ This project was the first project I made learning JavaScript, I took inspiratio
 
 ![](photos/Capture.JPG)
 
+# Future Plans
+
+- Add better support for different resolution(1440p, 4k) and size monitors 
+- Add mobile support
