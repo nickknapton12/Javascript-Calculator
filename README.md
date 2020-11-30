@@ -12,5 +12,7 @@ This project was the first project I made learning JavaScript, I took inspiratio
 - Added feature of square roots
 - Added feature of powers (x^n)
 - Added pi input for convenience
+- Minor aesthetic changes
+
 ![](photos/Capture.JPG)
 
